@@ -1,0 +1,37 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Description: |
+  EC2 Instance with security group
+
+Resources:
+  RMysecGrp:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: "AllowSSH"
+      GroupDescription: "Allow SSH Access" # Required
+
+      SecurityGroupIngress: 
+        - FromPort: 22
+          ToPort: 22
+          IpProtocol: "tcp" # Required
+          CidrIp: 0.0.0.0/0
+  
+      Tags: 
+      - key: Name 
+        value: MySerurityGroup
+
+  RMyinstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: ami-0d7a109bf30624c99
+      InstanceType: t2.micro
+      KeyName: Andre_Key-pair
+      SecurityGroups: 
+        - !Ref RMysecGrp
+
+      Tags: 
+      - Key: Name 
+        value: Andre-EC2-Stack
+
+   
+  

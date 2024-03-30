@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: 2010-09-09
-Description: |
+Description:  |
     EC2 instance and SG for kittens carousel website
 
 Parameters:
@@ -14,7 +14,7 @@ Parameters:
     Default: /aws/service/ami-amazon-linux-latest/al2023-ami-kernel-6.1-x86_64
 
 Resources:  
- rSecGroup:
+  rSecGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
       GroupDescription: Allow SSH and HTTP from Internet
@@ -34,7 +34,7 @@ Resources:
         - Key: Company
           Value: Clarusway
           
-  RMyinstance:
+  rWebServer:
     Type: AWS::EC2::Instance
     Properties:
       ImageId: !Ref pImageId
@@ -42,25 +42,29 @@ Resources:
       KeyName: !Ref pKeyname
       SecurityGroups: 
         - !Ref rSecGroup
-
       Tags: 
-        - Key: Name 
-          value: Kittens Web Server
+        - Key: Name
+          Value: Kittens Web Server
       UserData: !Base64 |
 
-        #!/bin/bash
+        #!/bin/bash -X
+
+        #update the OS
         yum update -y
         #install all apache
         yum install httpd -y
-        #copy contaent to var/www/html to folder
+
+        #copy contaent to /var/www/html folder
         cd /var/www/html
         FOLDER="https://raw.githubusercontent.com/awsdevopsteam/101-cfn-static-website-ec2/master/static-web"
         wget ${FOLDER}/index.html
         wget ${FOLDER}/cat0.jpg
         wget ${FOLDER}/cat1.jpg
         wget ${FOLDER}/cat2.jpg
-        wget ${FOLDER}/cat3.png
+      
 
         # start and enable Apache service
         systemctl start httpd
         systemctl enable httpd
+
+

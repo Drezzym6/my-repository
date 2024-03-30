@@ -14,3 +14,7 @@ wget ${FOLDER}/cat3.png
 # start and enable Apache service
 systemctl start httpd
 systemctl enable httpd
+
+
+
+#Outputs: 

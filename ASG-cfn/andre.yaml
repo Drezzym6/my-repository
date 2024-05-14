@@ -23,7 +23,7 @@ Parameters:
 
 Resources:
 
-ALBSecurityGroup:
+  ALBSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
       GroupDescription: Enable HTTP for ALB
